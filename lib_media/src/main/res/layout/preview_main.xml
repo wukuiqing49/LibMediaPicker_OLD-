@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#161c1e"
+    android:orientation="vertical">
+
+
+    <com.wkq.media.view.HackyViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <include
+        android:id="@+id/top"
+        layout="@layout/preview_actionbar" />
+
+    <include
+        android:id="@+id/bottom"
+        layout="@layout/preview_bottom_bar"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/edit_bottom"
+        layout="@layout/edit_bottom_bar"
+        android:visibility="gone" />
+</RelativeLayout>

@@ -1,0 +1,35 @@
+<resources>
+    <string name="library_name">媒体选择器</string>
+    <string name="all_dir_name">所有图片和视频</string>
+    <string name="all_video">所有视频</string>
+    <string name="all_image">所有图片</string>
+    <string name="select_title">选择图片和视频</string>
+    <string name="select_video_title">选择视频</string>
+    <string name="select_image_title">选择图片</string>
+    <string name="video_dir_name">所有视频</string>
+    <string name="msg_amount_limit">已达到选择数量上限</string>
+    <string name="msg_size_limit">请压缩和剪切后上传，文件最大只支持</string>
+    <string name="msg_time_limit">请压缩和剪切后上传，时长最大只支持</string>
+    <string name="msg_gif_limit">请选择其他图片,Gif格式不被支持</string>
+    <string name="select_null">请选择文件</string>
+    <string name="done">完成</string>
+    <string name="count_string">个</string>
+    <string name="preview">预览</string>
+    <string name="select">选择</string>
+    <string name="video">视频</string>
+    <string name="READ_EXTERNAL_STORAGE">需要打开读取存储权限</string>
+    <string name="CAMERA">需要打开系统相机权限</string>
+    <string name="msg_type_limit">不能同时选择图片或视频</string>
+    <string name="msg_no_save_permission">无法读取本地文件,请开启读取存储权限</string>
+    <string name="btn_imagepicker_ok">完成(%1$s/%2$s)</string>
+    <string name="imagepicker_crop_ok">确定</string>
+    <string name="imagepicker_crop_cancel">取消</string>
+    <string name="imagepicker_crop_decode_fail">无法获取图片数据</string>
+    <string name="imagepicker_crop_dialog">正在保存图片...</string>
+    <string name="imagepicker_crop_save_fail">保存图片失败</string>
+    <string name="error_imagepicker_lack_params">缺少参数</string>
+    <string name="msg_no_camera">没有系统相机</string>
+    <string name="msg_no_camera_permission">相机开启失败,请开启系统相机权限</string>
+    <string name="msg_error_camera">相机开启失败</string>
+</resources>
+

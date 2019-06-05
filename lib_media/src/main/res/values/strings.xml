@@ -1,0 +1,60 @@
+<resources>
+    <string name="app_name">lib_mediapicker</string>
+    <string name="all_dir_name">All Image and Video</string>
+    <string name="all_video">All Video</string>
+    <string name="all_image">All Image</string>
+    <string name="select_title">Select Image and Video</string>
+    <string name="select_video_title">Select Video</string>
+    <string name="select_image_title">Select Image</string>
+    <string name="video_dir_name">All Video</string>
+    <string name="msg_amount_limit">Has reached the maximum number of choices</string>
+    <string name="msg_size_limit">The maximum file size is only</string>
+    <string name="msg_time_limit">The maximum length is only supported.</string>
+    <string name="msg_type_limit">Can not select pictures or videos at the same time</string>
+    <string name="msg_gif_limit">The gif file not allowed</string>
+    <string name="select_null">please select file</string>
+    <string name="done">done</string>
+    <string name="count_string"></string>
+    <string name="preview">preview</string>
+    <string name="select">select</string>
+    <string name="video">video</string>
+    <string name="READ_EXTERNAL_STORAGE">Need to open read storage permissions</string>
+
+    <string name="dialog_imagepicker_permission_confirm">我知道了</string>
+    <string name="toast_imagepicker_permission_denied">无法获取所需权限</string>
+    <string name="dialog_imagepicker_permission_nerver_ask_confirm">去设置</string>
+    <string name="dialog_imagepicker_permission_nerver_ask_cancel">取消</string>
+    <string name="dialog_imagepicker_permission_sdcard_message">应用程序需要获取外部存储卡的读写权限，否则无法获取照片数据!</string>
+    <string name="dialog_imagepicker_permission_sdcard_audio_message">应用程序需要获取外部存储卡的读写权限,麦克风权限以及手机状态权限，否则无法进行语音输入!</string>
+    <string name="dialog_imagepicker_permission_camera_message">应用程序需要获取拍照权限和外部存储卡写入权限以及麦克风权限，否则无法拍摄!</string>
+    <string name="dialog_imagepicker_permission_share_message">应用程序需要获取外部存储卡写入权限，否则无法正常使用分享功能!</string>
+    <string name="dialog_imagepicker_permission_sdcard_nerver_ask_message">应用程序无法获取外部存储卡的读写权限，导致无法获取照片数据，您可通过系统设置界面打开软件的读写权限</string>
+    <string name="dialog_imagepicker_permission_camera_nerver_ask_message">应用程序无法获取拍照所需权限，导致无法启用拍照功能，您可通过系统设置界面打开软件的拍照权限和外部存储卡读写权限</string>
+
+    <string name="dialog_imagepicker_permission_location">发布内容中是否上传位置信息.</string>
+
+    <string name="btn_imagepicker_ok">done(%1$s/%2$s)</string>
+    <string name="imagepicker_crop_ok">enter</string>
+    <string name="imagepicker_crop_cancel">cancel</string>
+    <string name="imagepicker_crop_decode_fail">Unable to get image data</string>
+    <string name="imagepicker_crop_dialog">Saving image ...</string>
+    <string name="imagepicker_crop_save_fail">Failed to save the picture</string>
+    <string name="error_imagepicker_lack_params">Missing parameters</string>
+
+    <string name="msg_no_camera">No system camera</string>
+    <string name="dialog_imagepicker_permission_save_pic">应用程序需要获取拍照权限和外部存储卡写入权限，否则无法保存图片!</string>
+    <string name="dialog_imagepicker_permission_save_video">应用程序需要获取拍照权限和外部存储卡写入权限，否则无法保存视频!</string>
+    <string name="dialog_imagepicker_permission_down_app">应用程序需要获外部存储卡写入权限，否则无法更新应用!</string>
+
+    <string name="edit_can_not_trim_hint">不能分享超过5分钟的视频</string>
+    <string name="edit_trim_hint">只能分享5分钟内的视频,需进行编辑</string>
+    <string name="edit_trim_title">裁剪视频</string>
+    <string name="edit_can_not_trim_title">视频过长</string>
+
+    <string name="msg_no_save_permission">无法读取本地文件,请开启读取存储权限</string>
+    <string name="CAMERA">需要打开系统相机权限</string>
+    <string name="msg_no_camera_permission">相机开启失败,请开启系统相机权限</string>
+    <string name="msg_error_camera">相机开启失败</string>
+    <string name="library_name">媒体选择器</string>
+
+</resources>

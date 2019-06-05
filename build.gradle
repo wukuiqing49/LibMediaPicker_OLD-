@@ -1,0 +1,54 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    repositories {
+        google()
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.3.2'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        maven { url 'https://jitpack.io' }
+        
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+
+ext {
+    supportV4 = '27.1.0'
+    appcompatV7 = '27.1.0'
+    recyclerviewV7 = '27.1.0'
+    constraintLayout = '1.1.2'
+
+    glide = '4.5.0'
+    glideTransformations = '3.0.1'
+    compiler = '4.5.0'
+
+    easypermissions = '1.0.0'
+    rotatephotoview = '1.0.5'
+
+    libCnUtil = '3.1.0'
+    libCnVideo = '3.2.3'
+
+    qmui = '1.1.5'
+
+    libLargeImage = '1.0.1'
+    libBase = '1.0.8'
+    libVideoQiniu = '1.0.2'
+    gson = '2.8.5'
+}

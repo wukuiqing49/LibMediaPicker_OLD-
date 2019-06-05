@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="60dp"
+    android:layout_height="60dp"
+    android:layout_centerHorizontal="true"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/bottom_item_image_view"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerInParent="true"
+        android:padding="2px"
+        android:scaleType="centerCrop" />
+
+    <ImageView
+        android:id="@+id/masking"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerInParent="true"
+        android:background="#60ffffff"
+        android:padding="2px"
+        android:visibility="gone" />
+
+</RelativeLayout>

@@ -1,0 +1,30 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/imagepicker_text_white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/lay_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="#f2f3f4" />
+
+    <TextView
+        android:id="@+id/btn_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/picker_dialog_selection_selector_singleton"
+        android:gravity="center"
+        android:text="取消"
+        android:textColor="@color/blacktext"
+        android:textSize="14sp" />
+
+</LinearLayout>
