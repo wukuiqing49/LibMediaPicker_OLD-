@@ -1,2 +1,2 @@
-include ':app'
+include ':app', ':lib_media'
 //, ':lib_media'

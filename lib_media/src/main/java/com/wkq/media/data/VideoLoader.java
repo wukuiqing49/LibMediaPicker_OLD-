@@ -19,10 +19,6 @@ import java.io.File;
 import java.util.ArrayList;
 
 
-/**
- * Created by dmcBig on 2017/6/9.
- */
-
 public class VideoLoader extends LoaderM implements LoaderManager.LoaderCallbacks {
     String[] MEDIA_PROJECTION = {
             MediaStore.Files.FileColumns.DATA,
@@ -81,9 +77,11 @@ public class VideoLoader extends LoaderM implements LoaderManager.LoaderCallback
             int id = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns._ID));
             int duration = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Video.VideoColumns.DURATION));
 
-            if (size < 1) continue;
+            Uri photoUri = Uri.parse(MediaStore.Video.Media.EXTERNAL_CONTENT_URI.toString() + File.separator + id);
+            String fileUri = photoUri.toString();
+            if (size < 1 || duration < 1) continue;
             String dirName = getParent(path);
-            Media media = new Media(path, name, dateTime, mediaType, size, id, dirName, duration);
+            Media media = new Media(path, name, dateTime, mediaType, size, id, dirName, duration, fileUri);
             allFolder.addMedias(media);
 
             int index = hasDir(folders, dirName);

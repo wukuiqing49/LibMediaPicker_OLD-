@@ -18,10 +18,6 @@ import java.io.File;
 import java.util.ArrayList;
 
 
-/**
- * Created by dmcBig on 2017/6/9.
- */
-
 public class MediaLoader extends LoaderM implements LoaderManager.LoaderCallbacks {
     String[] MEDIA_PROJECTION = {
             MediaStore.Files.FileColumns.DATA,
@@ -35,6 +31,7 @@ public class MediaLoader extends LoaderM implements LoaderManager.LoaderCallback
 
     Context mContext;
     DataCallback mLoader;
+    private Uri photoUri;
 
     public MediaLoader(Context context, DataCallback loader) {
         if (context == null) return;
@@ -84,10 +81,17 @@ public class MediaLoader extends LoaderM implements LoaderManager.LoaderCallback
                 long size = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.SIZE));
                 int id = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns._ID));
                 int duration = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Video.VideoColumns.DURATION));
+                if (mediaType==3){
+                    photoUri = Uri.parse(MediaStore.Video.Media.EXTERNAL_CONTENT_URI.toString() + File.separator + id);
+                    if (size < 1 || duration<1 ) continue;
+                }else if (mediaType==1){
+                    photoUri = Uri.parse(MediaStore.Images.Media.EXTERNAL_CONTENT_URI.toString() + File.separator + id);
+                }
 
-                if (size < 1) continue;
+                String fileUri=photoUri.toString();
+
                 String dirName = getParent(path);
-                Media media = new Media(path, name, dateTime, mediaType, size, id, dirName, duration);
+                Media media = new Media(path, name, dateTime, mediaType, size, id, dirName, duration,fileUri);
                 allFolder.addMedias(media);
                 if (mediaType == 3) {
                     allVideoDir.addMedias(media);

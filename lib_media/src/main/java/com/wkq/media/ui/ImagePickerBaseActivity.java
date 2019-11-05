@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.wkq.media.R;
 import com.wkq.media.utils.ImagePickerComUtils;
+import com.wkq.media.utils.StatusBarUtil;
 
 
 /**
@@ -28,6 +29,7 @@ public abstract class ImagePickerBaseActivity extends AppCompatActivity implemen
         if (mContentView == null)
             mContentView = getLayoutInflater().inflate(getContentViewResId(), null);
         setContentView(mContentView);
+        StatusBarUtil.setColor(this,getResources().getColor(R.color.status_bar_color),0);
 
         mHandler = new Handler(getMainLooper());
         initUI(mContentView);
@@ -38,8 +40,6 @@ public abstract class ImagePickerBaseActivity extends AppCompatActivity implemen
     {
         //去掉ActionBar
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
-        //改变状态栏颜色
-        ImagePickerComUtils.changeStatusBarColor(this, getResources().getColor(R.color.imagepicker_statusbar));
     }
 
     /**

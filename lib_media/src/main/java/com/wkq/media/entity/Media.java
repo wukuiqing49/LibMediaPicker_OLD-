@@ -18,8 +18,9 @@ public class Media implements Parcelable {
     public boolean isDeleted;
     public int duration;
     public boolean compressed;
+    public String fileUri;
 
-    public Media(String path, String name, long time, int mediaType, long size, int id, String parentDir, int duration) {
+    public Media(String path, String name, long time, int mediaType, long size, int id, String parentDir, int duration,String fileUri) {
         this.path = path;
         this.name = name;
         this.time = time;
@@ -29,7 +30,9 @@ public class Media implements Parcelable {
         this.parentDir = parentDir;
         this.duration = duration;
         this.compressed = false;
+        this.fileUri=fileUri;
     }
+
 
     public Media(String path, String name, long time, int mediaType, long size, int id, String parentDir, int duration, boolean compressed) {
         this.path = path;
@@ -41,9 +44,10 @@ public class Media implements Parcelable {
         this.parentDir = parentDir;
         this.duration = duration;
         this.compressed = compressed;
+        this.fileUri=fileUri;
     }
 
-    public Media(String path, String name, long time, int mediaType, long size, int id, String parentDir) {
+    public Media(String path, String name, long time, int mediaType, long size, int id, String parentDir,String fileUri) {
         this.path = path;
         this.name = name;
         this.time = time;
@@ -51,6 +55,7 @@ public class Media implements Parcelable {
         this.size = size;
         this.id = id;
         this.parentDir = parentDir;
+        this.fileUri=fileUri;
     }
 
     @Override
@@ -70,6 +75,7 @@ public class Media implements Parcelable {
         dest.writeByte((byte) (isDeleted ? 1 : 0));
         dest.writeInt(duration);
         dest.writeByte((byte) (compressed ? 1 : 0));
+        dest.writeString(this.fileUri);
     }
 
     protected Media(Parcel in) {
@@ -83,6 +89,7 @@ public class Media implements Parcelable {
         this.isDeleted = in.readByte() != 0;
         this.duration = in.readInt();
         this.compressed = in.readByte() != 0;
+        this.fileUri = in.readString();
     }
 
     public static final Creator<Media> CREATOR = new Creator<Media>() {

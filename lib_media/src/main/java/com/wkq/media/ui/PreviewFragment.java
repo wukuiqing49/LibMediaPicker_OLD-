@@ -1,4 +1,4 @@
-package com.wkq.media.view;
+package com.wkq.media.ui;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -20,7 +20,7 @@ import com.cnlive.largeimage.LargeImageView;
 import com.cnlive.largeimage.factory.FileBitmapDecoderFactory;
 import com.wkq.media.R;
 import com.wkq.media.entity.Media;
-import com.wkq.media.ui.PreviewActivity;
+import com.wkq.media.utils.AndroidQUtil;
 import com.wkq.media.utils.FileTypeUtil;
 import com.wkq.media.utils.FileUtils;
 
@@ -93,21 +93,34 @@ public class PreviewFragment extends Fragment {
             if (media.mediaType == 3) {
                 mPhotoView.setVisibility(View.GONE);
                 ivVideoPre.setVisibility(View.VISIBLE);
-                Glide.with(getActivity())
-                        .load(media.path)
-                        .into(ivVideoPre);
+                if (AndroidQUtil.isAndroidQ()) {
+                    Uri mediaUri = Uri.parse(media.fileUri);
+                    Glide.with(getActivity())
+                            .load(mediaUri)
+                            .into(ivVideoPre);
+                } else {
+                    Glide.with(getActivity())
+                            .load(media.path)
+                            .into(ivVideoPre);
+                }
             } else {
                 mPhotoView.setVisibility(View.VISIBLE);
-                if ("gif".equals(FileTypeUtil.getFileType(media.path))){
+                if ("gif".equals(FileTypeUtil.getFileType(media.path))) {
 
                     Glide.with(getActivity()).asGif().load(media.path).into(gifView);
-                }else {
+                } else {
                     ivVideoPre.setVisibility(View.GONE);
-                    mPhotoView.setImage(new FileBitmapDecoderFactory(new File(media.path)));
+                    if (AndroidQUtil.isAndroidQ()) {
+
+                        mPhotoView.setImage(AndroidQUtil.getBitmapFromUri(getActivity(), Uri.parse(media.fileUri)));
+                    } else {
+
+                        mPhotoView.setImage(new FileBitmapDecoderFactory(new File(media.path)));
+                    }
+
                 }
 
             }
-
         } else {
             Toast.makeText(getActivity(), "文件已损坏", Toast.LENGTH_SHORT).show();
         }

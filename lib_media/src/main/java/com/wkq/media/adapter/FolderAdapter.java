@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.wkq.media.R;
 import com.wkq.media.entity.Folder;
 import com.wkq.media.entity.Media;
+import com.wkq.media.utils.AndroidQUtil;
 
 import java.util.ArrayList;
 
@@ -63,12 +64,33 @@ public class FolderAdapter extends BaseAdapter {
         }
 
         Folder folder = getItem(position);
-        Media media;
+        Media media= folder.getMedias().get(0);;
         if (folder.getMedias().size() > 0) {
-            media = folder.getMedias().get(0);
-            Glide.with(context)
-                    .load(Uri.parse("file://" + media.path))
-                    .into(holder.cover);
+            if (AndroidQUtil.isAndroidQ()) {
+                Uri mediaUri = Uri.parse(media.fileUri);
+                if (media.mediaType==3){
+                    try {
+                        Glide.with(context)
+                                .load(mediaUri)
+                                .into(holder.cover);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+
+                }else {
+                    Glide.with(context)
+                            .load(mediaUri)
+                            .into(holder.cover);
+                }
+            } else {
+                Uri mediaUri = Uri.parse("file://" + media.path);
+                Glide.with(context)
+                        .load(mediaUri)
+                        .into(holder.cover);
+            }
+
+
         } else {
             holder.cover.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.picker_default_image));
         }

@@ -433,7 +433,7 @@ public class PickerActivity extends AppCompatActivity implements DataCallback, V
         if (requestCode == PickerConfig.REQUEST_CODE_CROP && resultCode == PickerConfig.RESULT_CODE_CROP_OK && data != null) {
             ArrayList<Media> select = new ArrayList<>();
             File file = new File(data.getStringExtra(PickerConfig.INTENT_KEY_CROP_PATH));
-            Media media = new Media(file.getPath(), file.getName(), 0, 1, file.length(), 0, "");
+            Media media = new Media(file.getPath(), file.getName(), 0, 1, file.length(), 0, "","");
             select.add(media);
             done(select);
         }

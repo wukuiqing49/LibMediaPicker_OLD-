@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -24,6 +25,7 @@ import com.google.gson.Gson;
 import com.wkq.media.PickerConfig;
 import com.wkq.media.R;
 import com.wkq.media.entity.Media;
+import com.wkq.media.utils.AndroidQUtil;
 import com.wkq.media.utils.FileUtils;
 
 import java.io.File;
@@ -46,12 +48,12 @@ public class DiyCameraActivity extends AppCompatActivity implements Recyclerview
     private int maxTime;
     private ArrayList<Media> oldlist;
     private int shootMode = 0;
-   // private RecyclerView circleview;
-    private String endurl="";
-    private int enddutain=0;
+    // private RecyclerView circleview;
+    private String endurl = "";
+    private int enddutain = 0;
     private ImageView cameraback;
     private String sendcircle;
-   // private List<CircleData.ReleaseVideoTypeListBean> releaseVideoTypeListBeans;
+    // private List<CircleData.ReleaseVideoTypeListBean> releaseVideoTypeListBeans;
 
     public static void start(Activity context, String path, int maxTime, int resultCode) {
         Intent starter = new Intent(context, DiyCameraActivity.class);
@@ -69,7 +71,7 @@ public class DiyCameraActivity extends AppCompatActivity implements Recyclerview
         starter.putExtra(PickerConfig.MAX_TIME, maxTime);
         starter.putExtra(PickerConfig.CAMERA_SELECT_MODE, type);
         starter.putParcelableArrayListExtra(PickerConfig.OLD_LIST, list);
-        starter.putExtra("sendcircle",sendcircle);
+        starter.putExtra("sendcircle", sendcircle);
         context.startActivityForResult(starter, 200);
     }
 
@@ -84,21 +86,21 @@ public class DiyCameraActivity extends AppCompatActivity implements Recyclerview
         oldlist = getIntent().getParcelableArrayListExtra(PickerConfig.OLD_LIST);
         sendcircle = getIntent().getStringExtra("sendcircle");
         jCameraView = (JCameraView) findViewById(R.id.jcameraview);
-       // circleview = findViewById(R.id.recyclerView);
+        // circleview = findViewById(R.id.recyclerView);
         cameraback = findViewById(R.id.cameraback);
-      //  circleview.setVisibility(View.GONE);
+        //  circleview.setVisibility(View.GONE);
         cameraback.setVisibility(View.GONE);
-     final    CircleData.ReleaseVideoTypeListBean relea = new Gson().fromJson(sendcircle, CircleData.ReleaseVideoTypeListBean.class);
+        final CircleData.ReleaseVideoTypeListBean relea = new Gson().fromJson(sendcircle, CircleData.ReleaseVideoTypeListBean.class);
        /* if (relea==null){
             releaseVideoTypeListBeans = new ArrayList<CircleData.ReleaseVideoTypeListBean>();
         }else {
             releaseVideoTypeListBeans = Arrays.asList(relea);
         }*/
-     //   LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
-     //   layoutManager.setSmoothScrollbarEnabled(false);
-      //  circleview.setNestedScrollingEnabled(false);
-      //  circleview.setLayoutManager(layoutManager);
-       // circleview.setAdapter(new RecyclerviewAdapter(getContext(),releaseVideoTypeListBeans,this));
+        //   LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
+        //   layoutManager.setSmoothScrollbarEnabled(false);
+        //  circleview.setNestedScrollingEnabled(false);
+        //  circleview.setLayoutManager(layoutManager);
+        // circleview.setAdapter(new RecyclerviewAdapter(getContext(),releaseVideoTypeListBeans,this));
         if (maxTime > 5_000) jCameraView.setDuration(maxTime);
         //设置视频保存路径
         jCameraView.setSaveVideoPath(cachePath);
@@ -118,19 +120,21 @@ public class DiyCameraActivity extends AppCompatActivity implements Recyclerview
             public void captureSuccess(Bitmap bitmap) {
                 //获取图片bitmap
 
-                String path;
-//                path = FileUtil.saveBitmap("MyPictureOrFilm", bitmap);
-                path = FileUtils.saveBitmap(cachePath, bitmap);
+                Media media;
                 Intent intent = new Intent();
+                if (AndroidQUtil.isAndroidQ()) {
+                    String name = System.currentTimeMillis() + ".png";
+                    String uri = AndroidQUtil.saveBitmapToFile(DiyCameraActivity.this, bitmap, name, "拍照");
+                    media = new Media("", name, 0, 1, bitmap.getByteCount(), 0, "", uri);
+                } else {
+                    String path = FileUtils.saveBitmap(cachePath, bitmap);
+                    File file = new File(path);
+                    media = new Media(file.getPath(), file.getName(), 0, 1, file.length(), 0, "", "");
+                }
 
-                File file = new File(path);
-
-                // ArrayList<Media> medias = new ArrayList<>();
-                Media media = new Media(file.getPath(), file.getName(), 0, 1, file.length(), 0, "");
-                //medias.add(media);
                 oldlist.add(media);
                 intent.putParcelableArrayListExtra(PickerConfig.EXTRA_RESULT, oldlist);
-                intent.putExtra("isCircleVideo","nocircle");
+                intent.putExtra("isCircleVideo", "nocircle");
                 setResult(resultCode, intent);
                 Log.i("JCameraView", "bitmap = " + bitmap.getWidth());
                 finish();
@@ -141,14 +145,26 @@ public class DiyCameraActivity extends AppCompatActivity implements Recyclerview
 
                 Intent intent = new Intent();
 
-                File file = new File(url);
 
+                File file = new File(url);
+                Media media;
                 ArrayList<Media> medias = new ArrayList<>();
-                Media media = new Media(file.getPath(), file.getName(), duration, 3, file.length(), 0, "", duration);
+                if (AndroidQUtil.isAndroidQ()){
+                    Uri fileUri=   AndroidQUtil.getImageContentUri(DiyCameraActivity.this,file);
+                    String fileUriStr="";
+                    if (fileUri!=null){
+                        fileUriStr= fileUri.toString();
+                    }else {
+                        fileUriStr= "";
+                    }
+                    media = new Media(file.getPath(), file.getName(), duration, 3, file.length(), 0, "", duration ,fileUriStr);
+                }else {
+                    media = new Media(file.getPath(), file.getName(), duration, 3, file.length(), 0, "", duration ,"");
+                }
                 medias.add(media);
                 oldlist.add(media);
                 intent.putParcelableArrayListExtra(PickerConfig.EXTRA_RESULT, oldlist);
-               // intent.putExtra("isCircleVideo","nocircle");
+                // intent.putExtra("isCircleVideo","nocircle");
                 intent.putExtra("isCircleVideo", "cancircle");
                 //todo 未知操作
 //                EventBus.getDefault().postSticky(new CircleChoose(relea));
@@ -158,13 +174,13 @@ public class DiyCameraActivity extends AppCompatActivity implements Recyclerview
 
             @Override
             public void recordEnd(String url, int duration) {
-                if (relea!=null){
-                   // jCameraView.setButtonVisiblity();
-                //    circleview.setVisibility(View.GONE);
+                if (relea != null) {
+                    // jCameraView.setButtonVisiblity();
+                    //    circleview.setVisibility(View.GONE);
                     cameraback.setVisibility(View.VISIBLE);
                 }
-                endurl=url;
-                enddutain=duration;
+                endurl = url;
+                enddutain = duration;
             }
         });
         cameraback.setOnClickListener(new View.OnClickListener() {
@@ -184,18 +200,28 @@ public class DiyCameraActivity extends AppCompatActivity implements Recyclerview
         jCameraView.setRightClickListener(new ClickListener() {
             @Override
             public void onClick() {
+                Media media ;
                 Intent intent = new Intent();
                 if (!"".equals(endurl)) {
                     File file = new File(endurl);
                     ArrayList<Media> medias = new ArrayList<>();
-                    Media media = new Media(file.getPath(), file.getName(), enddutain, 3, file.length(), 0, "", enddutain);
+                    if (AndroidQUtil.isAndroidQ()){
+                        Uri fileUri=   AndroidQUtil.getImageContentUri(DiyCameraActivity.this,file);
+                        String fileUriStr="";
+                        if (fileUri!=null){
+                            fileUriStr= fileUri.toString();
+                        }else {
+                            fileUriStr= "";
+                        }
+                        media = new Media(file.getPath(), file.getName(), enddutain, 3, file.length(), 0, "", enddutain,fileUriStr);
+                    }else {
+                        media = new Media(file.getPath(), file.getName(), enddutain, 3, file.length(), 0, "", enddutain,"");
+                    }
                     medias.add(media);
                     oldlist.add(media);
-                  //  CircleData.ReleaseVideoTypeListBean releaseVideoTypeListBean = releaseVideoTypeListBeans.get(0);
+                    //  CircleData.ReleaseVideoTypeListBean releaseVideoTypeListBean = releaseVideoTypeListBeans.get(0);
                     intent.putParcelableArrayListExtra(PickerConfig.EXTRA_RESULT, oldlist);
                     intent.putExtra("isCircleVideo", "cancircle");
-                    //todo 未知操作
-//                    EventBus.getDefault().postSticky(new CircleChoose(relea));
                     setResult(resultCode, intent);
                     finish();
                 }

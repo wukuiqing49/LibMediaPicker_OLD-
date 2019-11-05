@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
                         //是否需要相机（默认false）
                         .needCamera(true)
                         //选择模式（默认PICKER_IMAGE_VIDEO）     PICKER_IMAGE-->图片 PICKER_VIDEO-->视频  PICKER_IMAGE_VIDEO-->图片&视频
-                        .selectMode(PickerConfig.PICKER_IMAGE)
+                        .selectMode(PickerConfig.PICKER_IMAGE_VIDEO)
                         //拍照或录像存储位置 默认Environment.getExternalStorageDirectory().getPath() + File.separator + "JCamera"
                         .cachePath(Environment.getExternalStorageDirectory() + "/strike/file/")
                         //是否为发朋友圈模式（默认false）  true-->图片与视频不能同时选择

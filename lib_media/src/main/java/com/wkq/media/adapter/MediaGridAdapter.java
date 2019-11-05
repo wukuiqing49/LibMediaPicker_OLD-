@@ -7,6 +7,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import com.bumptech.glide.Glide;
 import com.wkq.media.PickerConfig;
 import com.wkq.media.R;
 import com.wkq.media.entity.Media;
+import com.wkq.media.utils.AndroidQUtil;
 import com.wkq.media.utils.DoublePressed;
 import com.wkq.media.utils.FileTypeUtil;
 import com.wkq.media.utils.FileUtils;
@@ -165,11 +167,24 @@ public class MediaGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     media = medias.get(position);
                 }
 
-                Uri mediaUri = Uri.parse("file://" + media.path);
+                if (AndroidQUtil.isAndroidQ()) {
+                    Uri mediaUri = Uri.parse(media.fileUri);
+                    if (media.mediaType==3){
+                        Glide.with(context)
+                                .load(mediaUri)
+                                .into(myViewHolder.media_image);
+                    }else {
+                        Glide.with(context)
+                                .load(mediaUri)
+                                .into(myViewHolder.media_image);
+                    }
+                } else {
+                    Uri mediaUri = Uri.parse("file://" + media.path);
+                    Glide.with(context)
+                            .load(mediaUri)
+                            .into(myViewHolder.media_image);
+                }
 
-                Glide.with(context)
-                        .load(mediaUri)
-                        .into(myViewHolder.media_image);
                 int isSelect = isSelect(media);
 
                 if (media.mediaType == 3) {

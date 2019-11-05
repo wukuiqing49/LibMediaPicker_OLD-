@@ -33,7 +33,6 @@ import com.wkq.media.utils.FileTypeUtil;
 import com.wkq.media.utils.FileUtils;
 import com.wkq.media.utils.StatusBarUtil;
 import com.wkq.media.utils.StringUtils;
-import com.wkq.media.view.PreviewFragment;
 
 import java.io.File;
 import java.util.ArrayList;
