@@ -1,8 +1,10 @@
 package com.wkq.media.utils;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.media.MediaMetadataRetriever;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -23,9 +25,14 @@ public class VideoExtractFrameAsyncUtils {
         this.extractH=extractH;
     }
 
-    public void getVideoThumbnailsInfoForEdit(String videoPath, String OutPutFileDirPath, long startPosition, long endPosition, int thumbnailsCount) {
+    public void getVideoThumbnailsInfoForEdit(Context context, String fileUri, String videoPath, String OutPutFileDirPath, long startPosition, long endPosition, int thumbnailsCount) {
         MediaMetadataRetriever metadataRetriever = new MediaMetadataRetriever();
-        metadataRetriever.setDataSource(videoPath);
+        if (AndroidQUtil.isAndroidQ()){
+            metadataRetriever.setDataSource(context,Uri.parse(fileUri));
+        }else {
+            metadataRetriever.setDataSource(videoPath);
+        }
+
         long interval = (endPosition - startPosition) / (thumbnailsCount - 1);
         for (int i = 0; i < thumbnailsCount; i++) {
             if (stop) {

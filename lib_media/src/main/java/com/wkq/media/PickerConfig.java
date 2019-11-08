@@ -115,6 +115,8 @@ public class PickerConfig {
      */
     public static final String INTENT_KEY_CROP_PATH = "cropPath";
 
+    public static final String INTENT_KEY_CROP_URI= "cropUri";
+
     public static final String SINGLE_PICK = "single_pick";
     /**
      * 从哪个页面跳转到预览页面的 FROM_GRID_VIEW-->点击gridView的item   FROM_PREVIEW_BUTTON-->点击预览按钮

@@ -1,5 +1,6 @@
 package com.wkq.media;
 
+import android.content.Context;
 import android.os.Handler;
 
 import com.wkq.media.utils.VideoExtractFrameAsyncUtils;
@@ -12,22 +13,27 @@ public class ExtractFrameWorkThread extends Thread {
     private long startPosition;
     private long endPosition;
     private int thumbnailsCount;
+    Context context;
+    String fileUri;
     private VideoExtractFrameAsyncUtils mVideoExtractFrameAsyncUtils;
 
-    public ExtractFrameWorkThread(int extractW, int extractH, Handler mHandler, String videoPath, String OutPutFileDirPath,
+    public ExtractFrameWorkThread(Context context, String fileUri, int extractW, int extractH, Handler mHandler, String videoPath, String OutPutFileDirPath,
                                   long startPosition, long endPosition, int thumbnailsCount) {
         this.videoPath = videoPath;
         this.OutPutFileDirPath = OutPutFileDirPath;
         this.startPosition = startPosition;
         this.endPosition = endPosition;
         this.thumbnailsCount = thumbnailsCount;
-        this.mVideoExtractFrameAsyncUtils = new VideoExtractFrameAsyncUtils(extractW,extractH,mHandler);
+        this.fileUri = fileUri;
+        this.context = context;
+        this.mVideoExtractFrameAsyncUtils = new VideoExtractFrameAsyncUtils(extractW, extractH, mHandler);
+
     }
 
     @Override
     public void run() {
         super.run();
-        mVideoExtractFrameAsyncUtils.getVideoThumbnailsInfoForEdit(
+        mVideoExtractFrameAsyncUtils.getVideoThumbnailsInfoForEdit(context,fileUri,
                 videoPath,
                 OutPutFileDirPath,
                 startPosition,

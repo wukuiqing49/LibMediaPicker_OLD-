@@ -28,6 +28,7 @@ import com.wkq.media.data.ImageLoader;
 import com.wkq.media.data.MediaLoader;
 import com.wkq.media.data.VideoLoader;
 import com.wkq.media.entity.Media;
+import com.wkq.media.utils.AndroidQUtil;
 import com.wkq.media.utils.DoublePressed;
 import com.wkq.media.utils.FileTypeUtil;
 import com.wkq.media.utils.FileUtils;
@@ -361,8 +362,12 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
                 Toast.makeText(PreviewActivity.this, "文件已损坏", Toast.LENGTH_SHORT).show();
                 return;
             }
-            //todo  未知
-//            EditVideoActivity.startEditActivity(this, media.path, maxTime, videoTrimPath, resultCode);
+            if (AndroidQUtil.isAndroidQ()){
+                String path= AndroidQUtil.copyMp4(this,media.fileUri);
+                EditVideoActivity.startEditActivity(this,media.fileUri.toString(), path, maxTime, videoTrimPath, resultCode);
+            }else {
+                EditVideoActivity.startEditActivity(this,"", media.path, maxTime, videoTrimPath, resultCode);
+            }
         }
     }
 

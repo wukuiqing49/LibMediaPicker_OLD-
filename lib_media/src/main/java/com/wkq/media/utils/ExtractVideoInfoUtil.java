@@ -1,9 +1,12 @@
 package com.wkq.media.utils;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
+import android.net.Uri;
 import android.os.Build;
 import android.text.TextUtils;
+
 
 import java.io.File;
 
@@ -12,7 +15,7 @@ public class ExtractVideoInfoUtil {
     private MediaMetadataRetriever mMetadataRetriever;
     private long fileLength = 0;//毫秒
 
-    public ExtractVideoInfoUtil(String path) {
+    public ExtractVideoInfoUtil(Context context, String fileUri, String path) {
         if (TextUtils.isEmpty(path)) {
             throw new RuntimeException("path must be not null !");
         }
@@ -21,7 +24,12 @@ public class ExtractVideoInfoUtil {
             throw new RuntimeException("path file   not exists !");
         }
         mMetadataRetriever = new MediaMetadataRetriever();
-        mMetadataRetriever.setDataSource(file.getAbsolutePath());
+        if(AndroidQUtil.isAndroidQ()){
+            mMetadataRetriever.setDataSource(context, Uri.parse(fileUri));
+        }else {
+            mMetadataRetriever.setDataSource(file.getAbsolutePath());
+        }
+
         String len = getVideoLength();
         fileLength = TextUtils.isEmpty(len) ? 0 : Long.valueOf(len);
 

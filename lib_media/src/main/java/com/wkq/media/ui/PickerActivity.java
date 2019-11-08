@@ -1,11 +1,13 @@
 package com.wkq.media.ui;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -16,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.ListPopupWindow;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -38,6 +41,7 @@ import com.wkq.media.entity.Folder;
 import com.wkq.media.entity.Media;
 import com.wkq.media.ui.camera.DiyCameraActivity;
 import com.wkq.media.ui.crop.ImageCropActivity;
+import com.wkq.media.utils.AndroidQUtil;
 import com.wkq.media.utils.FileUtils;
 import com.wkq.media.utils.ImagePickerComUtils;
 import com.wkq.media.utils.PermissionChecker;
@@ -93,7 +97,7 @@ public class PickerActivity extends AppCompatActivity implements DataCallback, V
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         argsIntent = getIntent();
-        StatusBarUtil.setColor(this,getResources().getColor(R.color.status_bar_color),0);
+        StatusBarUtil.setColor(this, getResources().getColor(R.color.status_bar_color), 0);
         setContentView(R.layout.main);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         findViewById(R.id.btn_back).setOnClickListener(this);
@@ -139,10 +143,20 @@ public class PickerActivity extends AppCompatActivity implements DataCallback, V
         long maxVideoSize = mOptions.getMaxVideoSize();
         long maxImageSize = mOptions.getMaxImageSize();
         boolean selectGift = mOptions.isSelectGift();
+//        if (AndroidQUtil.isAndroidQ()) {
+//            cachePath = this.getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath();
+//            mOptions.setCachePath(cachePath);
+//        } else {
+//            cachePath = mOptions.getCachePath();
+//            if (TextUtils.isEmpty(cachePath)) {
+//                cachePath = this.getExternalCacheDir().getAbsolutePath();
+//            }
+//        }
         cachePath = mOptions.getCachePath();
         videoTrimPath = mOptions.getVideoTrimPath() == null ? "" : mOptions.getVideoTrimPath();
         if (cachePath == null) {
-            cachePath = Environment.getExternalStorageDirectory().getPath() + File.separator + "JCamera";
+            cachePath = (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q ? this.getExternalFilesDir("") : Environment.getExternalStorageDirectory()).getPath() + File.separator + "JCamera";
+
         } else {
             cachePath = cachePath.substring(0, cachePath.length() - 1);
         }
@@ -231,10 +245,9 @@ public class PickerActivity extends AppCompatActivity implements DataCallback, V
                         File file = new File(data.path);
                         if (!file.exists()) {
                             Toast.makeText(PickerActivity.this, "请到设置-文件已损坏", Toast.LENGTH_SHORT).show();
-                        }else if (data.path.endsWith("wbmp")){
+                        } else if (data.path.endsWith("wbmp")) {
                             Toast.makeText(PickerActivity.this, "请到设置-网家家暂不支持此格式图片分享", Toast.LENGTH_SHORT).show();
-                        }
-                        else {
+                        } else {
                             PickerActivity.this.onItemClick(position);
                         }
                     }
@@ -252,7 +265,19 @@ public class PickerActivity extends AppCompatActivity implements DataCallback, V
 
     private void onItemClick(int position) {
         if (mOptions.isNeedCrop() && mOptions.singlePick) {
-            ImageCropActivity.start(this, gridAdapter.getMedias().get(position).path, mOptions);
+            if (AndroidQUtil.isAndroidQ()) {
+                String uri = gridAdapter.getMedias().get(position).fileUri;
+                String filePath = AndroidQUtil.saveSignImageBox(this, "tempCrop.png", AndroidQUtil.getBitmapFromUri(this, Uri.parse(uri)));
+                if (!TextUtils.isEmpty(filePath) && FileUtils.isFileExists(filePath)) {
+                    ImageCropActivity.start(this, filePath, mOptions);
+                } else {
+                    Toast.makeText(PickerActivity.this, "文件路径异常", Toast.LENGTH_SHORT).show();
+                }
+
+            } else {
+                ImageCropActivity.start(this, gridAdapter.getMedias().get(position).path, mOptions);
+            }
+
         } else {
             Intent intent = new Intent(PickerActivity.this, PreviewActivity.class);
             intent.putExtra(PickerConfig.MAX_SELECT_COUNT, argsIntent.getIntExtra(PickerConfig.MAX_SELECT_COUNT, mOptions.getMaxNum()));
@@ -416,7 +441,8 @@ public class PickerActivity extends AppCompatActivity implements DataCallback, V
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
@@ -433,7 +459,8 @@ public class PickerActivity extends AppCompatActivity implements DataCallback, V
         if (requestCode == PickerConfig.REQUEST_CODE_CROP && resultCode == PickerConfig.RESULT_CODE_CROP_OK && data != null) {
             ArrayList<Media> select = new ArrayList<>();
             File file = new File(data.getStringExtra(PickerConfig.INTENT_KEY_CROP_PATH));
-            Media media = new Media(file.getPath(), file.getName(), 0, 1, file.length(), 0, "","");
+            String uriString = data.getStringExtra(PickerConfig.INTENT_KEY_CROP_URI);
+            Media media = new Media(file.getPath(), file.getName(), 0, 1, file.length(), 0, "", uriString);
             select.add(media);
             done(select);
         }

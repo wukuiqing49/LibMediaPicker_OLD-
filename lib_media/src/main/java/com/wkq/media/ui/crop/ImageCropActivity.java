@@ -4,21 +4,26 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.FutureTarget;
 import com.wkq.media.PickerConfig;
 import com.wkq.media.R;
 import com.wkq.media.data.ImagePickerCropParams;
 import com.wkq.media.data.ImagePickerOptions;
 import com.wkq.media.ui.ImagePickerBaseActivity;
+import com.wkq.media.utils.AndroidQUtil;
 import com.wkq.media.view.crop.CropUtil;
 import com.wkq.media.view.crop.CropView;
 
 import java.io.File;
+import java.util.concurrent.ExecutionException;
 
 /**
  * 裁剪界面
@@ -118,26 +123,34 @@ public class ImageCropActivity extends ImagePickerBaseActivity {
             return;
         }
         showDialog();
+
+
         new Thread(new Runnable() {
             @Override
             public void run() {
-//                String cachePath = mOptions.getCachePath();
-                String cachePath = cacheFile.getPath();
-                String name = CropUtil.createCropName();
 
-                String resultPath = CropUtil.saveBmp(bitmap, cachePath, name);
+                String filePath = AndroidQUtil.saveSignImageBox(ImageCropActivity.this, System.currentTimeMillis() + ".png", bitmap);
                 closeDialog();
-                if (TextUtils.isEmpty(resultPath)) {
+                if (TextUtils.isEmpty(filePath)) {
                     showShortToast(R.string.imagepicker_crop_save_fail);
                     setResult(RESULT_CANCELED);
                     finish();
                 } else {
                     //保存成功后返回给上级界面
                     Intent intent = new Intent();
-                    intent.putExtra(PickerConfig.INTENT_KEY_CROP_PATH, resultPath);
+                    intent.putExtra(PickerConfig.INTENT_KEY_CROP_PATH, filePath);
+                    Uri fileUri = Uri.fromFile(new File(filePath));
+                    if (fileUri != null) {
+                        intent.putExtra(PickerConfig.INTENT_KEY_CROP_URI, fileUri.toString());
+                    } else {
+                        intent.putExtra(PickerConfig.INTENT_KEY_CROP_URI, "");
+                    }
+
                     setResult(PickerConfig.RESULT_CODE_CROP_OK, intent);
                     finish();
                 }
+
+
             }
         }).start();
     }

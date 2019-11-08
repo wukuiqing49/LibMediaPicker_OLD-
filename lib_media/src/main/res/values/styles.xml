@@ -1,6 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <style name="AppTheme" parent="QMUI.Compat.NoActionBar">
+        <!-- 配置Android提供的theme -->
+        <item name="android:textAppearanceListItemSmall">@style/QDTextAppearanceListItemSmall</item>
+        <item name="android:textAppearanceListItem">@style/QDtextAppearanceListItem</item>
+        <item name="android:listPreferredItemHeight">?attr/qmui_list_item_height_higher</item>
+        <item name="android:listPreferredItemHeightSmall">?attr/qmui_list_item_height</item>
+        <item name="colorPrimaryDark">@color/transparent</item>
+        <!-- 配置qmui提供的theme -->
+        <item name="qmui_config_color_blue">@color/imagepicker_text_white</item>
+        <item name="qmui_round_btn_bg_color">@color/imagepicker_text_white</item>
+        <item name="qmui_round_btn_border_color">@color/s_btn_blue_border</item>
+        <item name="qmui_round_btn_text_color">@color/s_btn_blue_text</item>
+        <item name="qmui_content_spacing_horizontal">20dp</item>
+        <item name="qmui_content_padding_horizontal">@dimen/qmui_content_spacing_horizontal</item>
+
+        <item name="QMUITopBarStyle">@style/QDTopBar</item>
+
+
+        <item name="qmui_bottom_sheet_grid_item_mini_width">96dp</item>
+    </style>
+
+    <style name="QDTopBar" parent="QMUI.TopBar">
+        <item name="qmui_topbar_separator_color">#c3c3c3</item>
+        <item name="qmui_topbar_bg_color">@color/color_fff</item>
+        <item name="qmui_topbar_title_color">@color/color_282828</item>
+        <item name="qmui_topbar_subtitle_color">@color/color_fff</item>
+        <item name="qmui_topbar_text_btn_color_state_list">@color/s_topbar_btn_color</item>
+        <item name="qmui_topbar_height">48dp</item>
+        <item name="qmui_topbar_image_btn_height">48dp</item>
+    </style>
+
+    <style name="QMUI.Dialog.Action">
+        <item name="android:textColor">@color/greenlight2</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:gravity">right|center_vertical</item>
+        <item name="android:minWidth">64dp</item>
+        <item name="android:background">@null</item>
+        <item name="qmui_dialog_action_button_padding_horizontal">12dp</item>
+        <item name="qmui_dialog_action_icon_space">6dp</item>
+        <item name="qmui_dialog_positive_action_text_color">@color/greenlight2</item>
+        <item name="qmui_dialog_negative_action_text_color">@color/greenlight2</item>
+    </style>
+
+    <style name="QDTextAppearanceListItemSmall">
+        <item name="android:textColor">?attr/qmui_config_color_gray_4</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:background">?attr/qmui_s_list_item_bg_with_border_bottom_inset_left
+        </item>
+    </style>
+
+    <style name="ShareTheme" parent="QMUI.Compat.NoActionBar">
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="QDtextAppearanceListItem">
+        <item name="android:textColor">?attr/qmui_config_color_black</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:background">?attr/qmui_s_list_item_bg_with_border_bottom_inset_left
+        </item>
+    </style>
+
     <style name="BtnOkStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">40dp</item>

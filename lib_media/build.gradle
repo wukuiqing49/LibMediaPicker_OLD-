@@ -31,11 +31,18 @@ dependencies {
     implementation "com.android.support:appcompat-v7:28.0.0"
     implementation "com.android.support:recyclerview-v7:28.0.0"
     implementation "com.android.support.constraint:constraint-layout:1.1.2"
-    //glide
-    implementation "com.github.bumptech.glide:glide:4.5.0"
-    implementation "jp.wasabeef:glide-transformations:3.0.1"
-    annotationProcessor "com.github.bumptech.glide:compiler:4.5.0"
+
+    compile 'com.github.bumptech.glide:glide:4.9.0'
+    // Skip this if you don't want to use integration libraries or configure Glide.
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
+    api "jp.wasabeef:glide-transformations:3.0.1"
     implementation "pub.devrel:easypermissions:1.0.0"
     implementation "com.google.code.gson:gson:2.8.5"
     implementation 'com.github.wukuiqing49:Large:1.0.6'
+
+    implementation files('libs/pldroid-shortvideo-3.0.1.jar')
+
+    implementation "com.cnlive:lib_cnutil:$rootProject.libCnUtil"
+    implementation "com.cnlive:lib_cnvideo2.0:$rootProject.libCnVideo"
+    implementation "com.qmuiteam:qmui:$rootProject.qmui"
 }
