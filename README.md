@@ -10,7 +10,7 @@ e
              7:适配AndroidQ新版本
 
     引用方式:
-    implementation 'com.github.wukuiqing49:LibMediaPicker:1.0.10'
+    implementation 'com.github.wukuiqing49:LibMediaPicker:1.0.11'
 
      注意:需要处理 jdk 8 的兼容  (需要在项目的Bulid下配置)
 
