@@ -40,6 +40,9 @@ public class VideoEditAdapter extends RecyclerView.Adapter {
         Glide.with(context)
                 .load("file://" + lists.get(position).path)
                 .into(viewHolder.img);
+
+
+
     }
 
     @Override

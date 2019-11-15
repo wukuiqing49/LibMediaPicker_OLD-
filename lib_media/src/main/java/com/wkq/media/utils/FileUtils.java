@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 
 import java.io.BufferedOutputStream;
@@ -155,7 +156,7 @@ public class FileUtils {
         return new DecimalFormat("#,##0.#").format(size / Math.pow(1024, digitGroups)) + " " + units[digitGroups];
     }
 
-    public static String saveBitmap(String path, Bitmap b) {
+    public static String saveBitmap(Context context,String path, Bitmap b) {
         long dataTake = System.currentTimeMillis();
         String jpegName = path + File.separator + "picture_" + dataTake + ".jpg";
         try {
@@ -164,6 +165,11 @@ public class FileUtils {
             b.compress(Bitmap.CompressFormat.JPEG, 100, bos);
             bos.flush();
             bos.close();
+            File newFile= new  File(jpegName);
+            if (newFile != null) {
+                MediaStore.Images.Media.insertImage(context.getContentResolver(),
+                        newFile.getAbsolutePath(), newFile.getName(), null);
+            }
             return jpegName;
         } catch (IOException e) {
             e.printStackTrace();

@@ -17,7 +17,6 @@ import com.wkq.media.entity.Media;
 
 import java.io.File;
 import java.util.ArrayList;
-
 public class ImageLoader extends LoaderM implements LoaderManager.LoaderCallbacks {
 
     String[] IMAGE_PROJECTION = {
@@ -61,11 +60,13 @@ public class ImageLoader extends LoaderM implements LoaderManager.LoaderCallback
         if (o != null) cursor = (Cursor) o;
         while (cursor != null && cursor.moveToNext()) {
             String path = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA));
+            //todo 过滤掉不存在的文件 杨帅 2019-4-18
             File file = new File(path);
             if (!file.exists()) {
                 continue;
             }
 
+            //todo 过滤掉.wbmp格式的图片 杨帅 2019-4-17
             //判断路径的长度是否大于后缀名
             if (path.length() > ".wbmp".length()) {
                 //进行判断
@@ -80,7 +81,6 @@ public class ImageLoader extends LoaderM implements LoaderManager.LoaderCallback
             int id = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID));
             Uri photoUri = Uri.parse(MediaStore.Images.Media.EXTERNAL_CONTENT_URI.toString() + File.separator + id);
             String fileUri=photoUri.toString();
-            if (size < 1) continue;
             if (TextUtils.isEmpty(path)) continue;
             String dirName = getParent(path);
             Media media = new Media(path, name, dateTime, mediaType, size, id, dirName,fileUri);

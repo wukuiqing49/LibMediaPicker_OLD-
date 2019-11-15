@@ -42,7 +42,11 @@ dependencies {
 
     implementation files('libs/pldroid-shortvideo-3.0.1.jar')
 
-    implementation "com.cnlive:lib_cnutil:$rootProject.libCnUtil"
-    implementation "com.cnlive:lib_cnvideo2.0:$rootProject.libCnVideo"
+//    implementation "com.cnlive:lib_cnutil:$rootProject.libCnUtil"
+//    implementation "com.cnlive:lib_cnvideo2.0:$rootProject.libCnVideo"
     implementation "com.qmuiteam:qmui:$rootProject.qmui"
+
+    implementation "io.reactivex.rxjava2:rxjava:$rootProject.rxJava"
+    implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rxAndroid"
+
 }

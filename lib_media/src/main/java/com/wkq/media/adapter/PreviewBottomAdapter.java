@@ -1,6 +1,7 @@
 package com.wkq.media.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.wkq.media.R;
 import com.wkq.media.entity.Media;
+import com.wkq.media.utils.AndroidQUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +21,6 @@ import java.util.List;
  * 预览页面下面小图
  * Created by Lynn on 2018/1/17.
  */
-
 public class PreviewBottomAdapter extends RecyclerView.Adapter<PreviewBottomAdapter.ViewHolder> {
 
     private Context context;
@@ -49,9 +50,23 @@ public class PreviewBottomAdapter extends RecyclerView.Adapter<PreviewBottomAdap
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        Glide.with(context)
-                .load(mItems.get(position).path)
-                .into(holder.rv_item_image);
+
+        if (AndroidQUtil.isAndroidQ()) {
+            Uri mediaUri = Uri.parse(mItems.get(position).fileUri);
+            if (mItems.get(position).mediaType == 3) {
+                Glide.with(context)
+                        .load(mediaUri)
+                        .into(holder.rv_item_image);
+            } else {
+                Glide.with(context)
+                        .load(mediaUri)
+                        .into(holder.rv_item_image);
+            }
+        } else {
+            Glide.with(context)
+                    .load(mItems.get(position).path)
+                    .into(holder.rv_item_image);
+        }
 
         if (selectedPosition == position) {
             holder.rv_item_image.setBackgroundResource(R.drawable.shape_green_square_bg);

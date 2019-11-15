@@ -40,6 +40,8 @@ public abstract class ImagePickerBaseActivity extends AppCompatActivity implemen
     {
         //去掉ActionBar
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+        //改变状态栏颜色
+        ImagePickerComUtils.changeStatusBarColor(this, getResources().getColor(R.color.imagepicker_statusbar));
     }
 
     /**
@@ -118,5 +120,6 @@ public abstract class ImagePickerBaseActivity extends AppCompatActivity implemen
     protected abstract void initData();
 
     protected abstract void onClick(View v, int id);
+
 
 }

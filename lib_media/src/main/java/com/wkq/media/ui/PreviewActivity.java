@@ -50,7 +50,6 @@ import static com.wkq.media.PickerConfig.DEFAULT_SELECT_GIF;
  */
 
 public class PreviewActivity extends AppCompatActivity implements View.OnClickListener, ViewPager.OnPageChangeListener {
-
     public static final int MAX_TRIM_DURATION = 10 * 60 * 1000;
 
     Button done;
@@ -95,8 +94,8 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        StatusBarUtil.setColor(this,getResources().getColor(R.color.status_bar_color),0);
         setContentView(R.layout.preview_main);
+        StatusBarUtil.setColor(this,getResources().getColor(R.color.status_bar_color),0);
         findViewById(R.id.btn_back).setOnClickListener(this);
         check_image = (ImageView) findViewById(R.id.check_image);
         check_layout = (LinearLayout) findViewById(R.id.check_layout);
@@ -240,7 +239,7 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
             done.setText(getString(R.string.done));
             chooseMedias(1);
         }
-     //   chooseMedias(num1);
+        //   chooseMedias(num1);
 
     }
 
@@ -257,6 +256,9 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View v) {
         int id = v.getId();
+        if (preRawList == null || preRawList.size() <= 0
+                || viewpager == null || preRawList.get(viewpager.getCurrentItem()) == null)
+            return;
         if (id == R.id.btn_back) {
             done(selects, PickerConfig.RESULT_UPDATE_CODE);
         } else if (id == R.id.done) {
@@ -270,7 +272,7 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
                 return;
             }
             if (!selectGift && FileTypeUtil.getFileType(currentMedia.path).equals("gif")) {
-                if(DoublePressed.onDoublePressed())return;
+                if (DoublePressed.onDoublePressed()) return;
                 Toast.makeText(this, getString(R.string.msg_gif_limit), Toast.LENGTH_LONG).show();
                 return;
             }
@@ -322,7 +324,7 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
                 }
 
                 if (!selectGift && FileTypeUtil.getFileType(media.path).equals("gif")) {
-                    if(DoublePressed.onDoublePressed())return;
+                    if (DoublePressed.onDoublePressed()) return;
                     Toast.makeText(this, getString(R.string.msg_gif_limit), Toast.LENGTH_LONG).show();
                     return;
                 }
@@ -359,15 +361,18 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
         } else if (id == R.id.edit_btn) {
             Media media = preRawList.get(viewpager.getCurrentItem());
             if (!new File(media.path).exists()) {
-                Toast.makeText(PreviewActivity.this, "文件已损坏", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "文件已损坏", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (AndroidQUtil.isAndroidQ()){
-                String path= AndroidQUtil.copyMp4(this,media.fileUri);
-                EditVideoActivity.startEditActivity(this,media.fileUri.toString(), path, maxTime, videoTrimPath, resultCode);
-            }else {
-                EditVideoActivity.startEditActivity(this,"", media.path, maxTime, videoTrimPath, resultCode);
-            }
+
+
+//            if (AndroidQUtil.isAndroidQ()){
+//                String path= AndroidQUtil.copyMp4(this,media.fileUri,media.name);
+//                EditVideoActivity.startEditActivity(this,media.fileUri.toString(), path, maxTime, videoTrimPath, resultCode);
+//            }else {
+//                EditVideoActivity.startEditActivity(this,"", media.path, maxTime, videoTrimPath, resultCode);
+//            }
+
         }
     }
 

@@ -121,8 +121,9 @@ public class PreviewFragment extends Fragment {
                 }
 
             }
+
         } else {
-            Toast.makeText(getActivity(), "文件已损坏", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "请选择媒体文件", Toast.LENGTH_SHORT).show();
         }
 
     }

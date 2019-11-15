@@ -18,6 +18,10 @@ import java.io.File;
 import java.util.ArrayList;
 
 
+/**
+ * Created by dmcBig on 2017/6/9.
+ */
+
 public class MediaLoader extends LoaderM implements LoaderManager.LoaderCallbacks {
     String[] MEDIA_PROJECTION = {
             MediaStore.Files.FileColumns.DATA,

@@ -52,4 +52,10 @@ ext {
     libBase = '1.0.8'
     libVideoQiniu = '1.0.2'
     gson = '2.8.5'
+
+    //rxJava
+    rxJava = "2.1.8"
+    rxAndroid = "2.0.1"
+
+
 }

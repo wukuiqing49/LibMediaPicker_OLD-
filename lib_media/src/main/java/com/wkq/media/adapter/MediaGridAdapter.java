@@ -169,11 +169,11 @@ public class MediaGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                 if (AndroidQUtil.isAndroidQ()) {
                     Uri mediaUri = Uri.parse(media.fileUri);
-                    if (media.mediaType==3){
+                    if (media.mediaType == 3) {
                         Glide.with(context)
                                 .load(mediaUri)
                                 .into(myViewHolder.media_image);
-                    }else {
+                    } else {
                         Glide.with(context)
                                 .load(mediaUri)
                                 .into(myViewHolder.media_image);
@@ -184,6 +184,7 @@ public class MediaGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             .load(mediaUri)
                             .into(myViewHolder.media_image);
                 }
+
 
                 int isSelect = isSelect(media);
 
@@ -208,13 +209,12 @@ public class MediaGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 }
 
                 myViewHolder.mask_view.setVisibility(isSelect >= 0 ? View.VISIBLE : View.INVISIBLE);
-               final File file = new File(media.path);
+                File file = new File(media.path);
                 myViewHolder.check_image.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (!file.exists()){
-                            Toast.makeText(context, "文件已损坏", Toast.LENGTH_LONG).show();
-
+                        if (!file.exists()) {
+                            Toast.makeText(context,"文件已损坏",Toast.LENGTH_SHORT).show();
                             return;
                         }
                         /*if (!com.cnlive.libs.base.util.FileUtils.isFileExists(media.path)) {
@@ -237,7 +237,7 @@ public class MediaGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                                     return;
                                 }
                                 if (!isSelectGift && FileTypeUtil.getFileType(media.path).equals("gif")) {
-                                    if(DoublePressed.onDoublePressed())return;
+                                    if (DoublePressed.onDoublePressed()) return;
                                     Toast.makeText(context, context.getString(R.string.msg_gif_limit), Toast.LENGTH_LONG).show();
                                     return;
                                 }
@@ -264,8 +264,8 @@ public class MediaGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 myViewHolder.media_image.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (!file.exists()){
-                            Toast.makeText(context, "文件已损坏", Toast.LENGTH_LONG).show();
+                        if (!file.exists()) {
+                          Toast.makeText(context,"文件已损坏",Toast.LENGTH_SHORT).show();
                             return;
                         }
                         /*if (!com.cnlive.libs.base.util.FileUtils.isFileExists(media.path)) {
@@ -282,7 +282,7 @@ public class MediaGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             return;
                         }
                         if (!isSelectGift && FileTypeUtil.getFileType(media.path).equals("gif")) {
-                            if(DoublePressed.onDoublePressed())return;
+                            if (DoublePressed.onDoublePressed()) return;
                             Toast.makeText(context, context.getString(R.string.msg_gif_limit), Toast.LENGTH_LONG).show();
                             return;
                         }

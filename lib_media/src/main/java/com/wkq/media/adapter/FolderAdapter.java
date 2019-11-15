@@ -64,36 +64,39 @@ public class FolderAdapter extends BaseAdapter {
         }
 
         Folder folder = getItem(position);
-        Media media= folder.getMedias().get(0);;
-        if (folder.getMedias().size() > 0) {
-            if (AndroidQUtil.isAndroidQ()) {
-                Uri mediaUri = Uri.parse(media.fileUri);
-                if (media.mediaType==3){
-                    try {
+        if (folder!=null&&folder.getMedias().size()>0){
+            Media media= folder.getMedias().get(0);;
+            if (folder.getMedias().size() > 0) {
+                if (AndroidQUtil.isAndroidQ()) {
+                    Uri mediaUri = Uri.parse(media.fileUri);
+                    if (media.mediaType==3){
+                        try {
+                            Glide.with(context)
+                                    .load(mediaUri)
+                                    .into(holder.cover);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }else {
                         Glide.with(context)
                                 .load(mediaUri)
                                 .into(holder.cover);
-                    } catch (Exception e) {
-                        e.printStackTrace();
                     }
-
-
-                }else {
+                } else {
+                    Uri mediaUri = Uri.parse("file://" + media.path);
                     Glide.with(context)
                             .load(mediaUri)
                             .into(holder.cover);
                 }
+
+
             } else {
-                Uri mediaUri = Uri.parse("file://" + media.path);
-                Glide.with(context)
-                        .load(mediaUri)
-                        .into(holder.cover);
+                holder.cover.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.picker_default_image));
             }
-
-
-        } else {
-            holder.cover.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.picker_default_image));
         }
+
 
         holder.name.setText(folder.name);
 
