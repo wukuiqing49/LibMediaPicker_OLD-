@@ -356,6 +356,13 @@ public class CameraInterface implements Camera.PreviewCallback {
         doDestroyCamera();
         LogUtil.i("open start");
         openCamera(SELECTED_CAMERA);
+        if (Build.VERSION.SDK_INT > 17 && this.mCamera != null) {
+            try {
+                this.mCamera.enableShutterSound(false);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         LogUtil.i("open end");
         return doStartPreview(holder, screenProp);
     }
@@ -431,8 +438,6 @@ public class CameraInterface implements Camera.PreviewCallback {
                 mCamera.setPreviewDisplay(null);
                 isPreviewing = false;
                 mCamera.lock();
-                mCamera.release();
-                mCamera = null;
                 Log.i(TAG, "=== Stop Preview ===");
             } catch (Exception e) {
                 Log.e("Camera", "", e);
@@ -476,7 +481,7 @@ public class CameraInterface implements Camera.PreviewCallback {
      */
     private int nowAngle;
 
-    public boolean takePicture(final TakePictureCallback callback) {
+    public boolean takePicture(TakePictureCallback callback) {
         if (mCamera == null) {
             return false;
         }
@@ -521,7 +526,7 @@ public class CameraInterface implements Camera.PreviewCallback {
     }
 
     //启动录像
-    public boolean startRecord(Surface surface, float screenProp, ErrorCallback callback) {
+    public boolean startRecord(Surface surface, float screenProp, ErrorCallback callback,Context context) {
         if (mCamera == null) return false;
         mCamera.setPreviewCallback(null);
         final int nowAngle = (angle + 90) % 360;
@@ -633,7 +638,7 @@ public class CameraInterface implements Camera.PreviewCallback {
 
             videoFileName = "video_" + System.currentTimeMillis() + ".mp4";
             if (saveVideoPath.equals("")) {
-                saveVideoPath = Environment.getExternalStorageDirectory().getPath();
+                saveVideoPath = (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q ?context.getExternalFilesDir("") : Environment.getExternalStorageDirectory()).getPath();
             }
             videoFileAbsPath = saveVideoPath + File.separator + videoFileName;
             mediaRecorder.setOutputFile(videoFileAbsPath);
