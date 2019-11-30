@@ -2,6 +2,7 @@ package com.wkq.media.utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Environment;
 
 import java.io.File;
@@ -69,7 +70,8 @@ public class PictureUtils {
 
     public static String getSaveEditThumbnailDir(Context context) {
         String state = Environment.getExternalStorageState();
-        File rootDir = state.equals(Environment.MEDIA_MOUNTED) ? Environment.getExternalStorageDirectory() : context.getCacheDir();
+        File rootDir = state.equals(Environment.MEDIA_MOUNTED) ? (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q ? context.getExternalFilesDir("") : Environment.getExternalStorageDirectory()) : context.getCacheDir();
+
         File folderDir = new File(rootDir.getAbsolutePath() + EDIT_PATH);
         if (!folderDir.exists() && folderDir.mkdirs()) {
 

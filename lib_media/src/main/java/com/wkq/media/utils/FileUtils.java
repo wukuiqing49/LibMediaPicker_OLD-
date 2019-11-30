@@ -3,6 +3,7 @@ package com.wkq.media.utils;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -115,7 +116,8 @@ public class FileUtils {
     }
 
     private static File getExternalCacheDir(Context context) {
-        File dataDir = new File(new File(Environment.getExternalStorageDirectory(), "Android"), "data");
+        File dataDir = new File(new File((Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q ? context.getExternalFilesDir("") : Environment.getExternalStorageDirectory()), "Android"), "data");
+
         File appCacheDir = new File(new File(dataDir, context.getPackageName()), "cache");
         if (!appCacheDir.exists()) {
             if (!appCacheDir.mkdirs()) {

@@ -81,6 +81,13 @@ public class ImagePickerComUtils {
     }
 
     /**
+     * 获取sd卡绝对路径
+     */
+    public static String getSdPath(Context context) {
+        return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q ? context.getExternalFilesDir("") : Environment.getExternalStorageDirectory()).getAbsolutePath();
+    }
+
+    /**
      * 检查sd卡是否存在
      */
     public static boolean isSdExist() {

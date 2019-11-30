@@ -1,6 +1,8 @@
 package com.cameralibrary.util;
 
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Environment;
 
 import java.io.BufferedOutputStream;
@@ -33,9 +35,20 @@ public class FileUtil {
         return storagePath;
     }
 
-    public static String saveBitmap(String dir, Bitmap b) {
+
+    private static String initPath(Context context) {
+        if (storagePath.equals("")) {
+            storagePath = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q ? context.getExternalFilesDir("") : Environment.getExternalStorageDirectory()).getAbsolutePath() + File.separator + DST_FOLDER_NAME;
+            File f = new File(storagePath);
+            if (!f.exists()) {
+                f.mkdir();
+            }
+        }
+        return storagePath;
+    }
+    public static String saveBitmap(Context context,String dir, Bitmap b) {
         DST_FOLDER_NAME = dir;
-        String path = initPath();
+        String path = initPath(context);
         long dataTake = System.currentTimeMillis();
         String jpegName = path + File.separator + "picture_" + dataTake + ".jpg";
         try {

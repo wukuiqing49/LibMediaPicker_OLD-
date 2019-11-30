@@ -166,7 +166,7 @@ public class PickerActivity extends AppCompatActivity implements DataCallback, V
             cachePath = mOptions.getCachePath();
             videoTrimPath = mOptions.getVideoTrimPath() == null ? "" : mOptions.getVideoTrimPath();
             if (cachePath == null) {
-                cachePath = (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q ? this.getExternalFilesDir("") : Environment.getExternalStorageDirectory()).getPath() + File.separator + "JCamera";
+                cachePath = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q ? this.getExternalFilesDir("") : Environment.getExternalStorageDirectory()).getPath() + File.separator + "JCamera";
 
             } else {
                 cachePath = cachePath.substring(0, cachePath.length() - 1);

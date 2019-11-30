@@ -130,7 +130,7 @@
 //        videoTrimPath = getIntent().getStringExtra(VIDEO_TRIM_PATH);
 //
 //        if (TextUtils.isEmpty(videoTrimPath)) {
-//            videoTrimPath = (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q ? this.getExternalFilesDir("") : Environment.getExternalStorageDirectory()).getPath() + File.separator + "trim";
+            //videoTrimPath = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q ? this.getExternalFilesDir("") : Environment.getExternalStorageDirectory()).getPath() + File.separator + "trim";
 //        } else {
 //            videoTrimPath = videoTrimPath.substring(0, videoTrimPath.length() - 1);
 //        }

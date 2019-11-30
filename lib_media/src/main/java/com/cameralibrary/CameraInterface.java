@@ -401,21 +401,23 @@ public class CameraInterface implements Camera.PreviewCallback {
                         Camera.Parameters.FOCUS_MODE_AUTO)) {
                     mParams.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
                 }
+
+
+                List<Camera.Size> sizeList = mParams.getSupportedPreviewSizes();
+                Camera.Size optionSize = getOptimalPreviewSize(sizeList, preview_width - 200, preview_height - 200);
+                mParams.setPreviewSize(optionSize.width, optionSize.height);
                 if (CameraParamUtil.getInstance().isSupportedPictureFormats(mParams.getSupportedPictureFormats(),
                         ImageFormat.JPEG)) {
                     mParams.setPictureFormat(ImageFormat.JPEG);
                     mParams.setJpegQuality(100);
                 }
-                try {
-                    mCamera.setParameters(mParams);
-                } catch (Exception e) {
-                    Log.e("Camera", "开启预览异常", e);
-                }
-                // mParams = mCamera.getParameters();
-                mCamera.setPreviewDisplay(holder);  //SurfaceView
-                mCamera.setDisplayOrientation(cameraAngle);//浏览角度
+                mCamera.setParameters(mParams);
+                //通过SurfaceView显示预览
+                mCamera.setPreviewDisplay(mHolder);
+                mCamera.setDisplayOrientation(cameraAngle);
                 mCamera.setPreviewCallback(this); //每一帧回调
-                mCamera.startPreview();//启动浏览
+                //开始预览
+                mCamera.startPreview();
                 isPreviewing = true;
                 Log.i(TAG, "=== Start Preview ===");
                 return true;
@@ -425,6 +427,37 @@ public class CameraInterface implements Camera.PreviewCallback {
         }
         return false;
     }
+
+
+    private Camera.Size getOptimalPreviewSize(List<Camera.Size> sizes, int w, int h) {
+        final double ASPECT_TOLERANCE = 0.1;
+        double targetRatio = (double) w / h;
+        if (sizes == null) return null;
+
+        Camera.Size optimalSize = null;
+        double minDiff = Double.MAX_VALUE;
+        int targetHeight = h;
+
+        for (Camera.Size size : sizes) {
+            double ratio = (double) size.width / size.height;
+            if (Math.abs(ratio - targetRatio) > ASPECT_TOLERANCE) continue;
+            if (Math.abs(size.height - targetHeight) < minDiff) {
+                optimalSize = size;
+                minDiff = Math.abs(size.height - targetHeight);
+            }
+        }
+        if (optimalSize == null) {
+            minDiff = Double.MAX_VALUE;
+            for (Camera.Size size : sizes) {
+                if (Math.abs(size.height - targetHeight) < minDiff) {
+                    optimalSize = size;
+                    minDiff = Math.abs(size.height - targetHeight);
+                }
+            }
+        }
+        return optimalSize;
+    }
+
 
     /**
      * 停止预览
@@ -526,7 +559,7 @@ public class CameraInterface implements Camera.PreviewCallback {
     }
 
     //启动录像
-    public boolean startRecord(Surface surface, float screenProp, ErrorCallback callback,Context context) {
+    public boolean startRecord(Surface surface, float screenProp, ErrorCallback callback, Context context) {
         if (mCamera == null) return false;
         mCamera.setPreviewCallback(null);
         final int nowAngle = (angle + 90) % 360;
@@ -638,7 +671,7 @@ public class CameraInterface implements Camera.PreviewCallback {
 
             videoFileName = "video_" + System.currentTimeMillis() + ".mp4";
             if (saveVideoPath.equals("")) {
-                saveVideoPath = (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q ?context.getExternalFilesDir("") : Environment.getExternalStorageDirectory()).getPath();
+                saveVideoPath = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q ? context.getExternalFilesDir("") : Environment.getExternalStorageDirectory()).getPath();
             }
             videoFileAbsPath = saveVideoPath + File.separator + videoFileName;
             mediaRecorder.setOutputFile(videoFileAbsPath);
