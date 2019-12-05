@@ -1,6 +1,7 @@
-e
-         LibMediaPicker
-             这是一个相册框架,主要功能如下:
+
+   LibMediaPicker
+   这是一个相册框架,主要功能如下:
+
              1:支持图片,视频的文件选取 
              2:支持Gif图片选取
              3:支持视频裁剪
@@ -9,8 +10,9 @@ e
              6:支持预览图放大功能
              7:适配AndroidQ新版本
 
+
     引用方式:
-    implementation 'com.github.wukuiqing49:LibMediaPicker:1.0.13'
+    implementation 'com.github.wukuiqing49:LibMediaPicker:1.0.15'
 
      注意:需要处理 jdk 8 的兼容  (需要在项目的Bulid下配置)
 
