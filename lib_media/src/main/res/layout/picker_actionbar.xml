@@ -39,7 +39,7 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="9dp"
-        android:background="@drawable/bg_done"
+        android:background="@drawable/xc_anniu_changtai"
         android:minHeight="1dp"
         android:minWidth="1dp"
         android:paddingBottom="5dp"
