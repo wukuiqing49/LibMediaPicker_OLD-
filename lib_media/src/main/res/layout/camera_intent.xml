@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/transparent">
 
-    <com.cameralibrary.JCameraView
+    <com.cjt2325.cameralibrary.JCameraView
         android:id="@+id/jcameraview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

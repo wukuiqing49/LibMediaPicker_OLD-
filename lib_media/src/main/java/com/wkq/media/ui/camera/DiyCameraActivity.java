@@ -19,9 +19,9 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 
-import com.cameralibrary.JCameraView;
-import com.cameralibrary.listener.ClickListener;
-import com.cameralibrary.listener.JCameraListener;
+import com.cjt2325.cameralibrary.JCameraView;
+import com.cjt2325.cameralibrary.listener.ClickListener;
+import com.cjt2325.cameralibrary.listener.JCameraListener;
 import com.google.gson.Gson;
 import com.wkq.media.PickerConfig;
 import com.wkq.media.R;
