@@ -323,17 +323,25 @@ public class MediaGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
      */
     public int isSelect(Media media) {
         int is = -1;
-        if (selectMedias.size() <= 0) {
+        if (AndroidQUtil.isAndroidQ()){
+            for (int i = 0; i < selectMedias.size(); i++) {
+                Media m = selectMedias.get(i);
+                if (m.fileUri.equals(media.fileUri)) {
+                    is = i;
+                    break;
+                }
+            }
+            return is;
+        }else {
+            for (int i = 0; i < selectMedias.size(); i++) {
+                Media m = selectMedias.get(i);
+                if (m.path.equals(media.path)) {
+                    is = i;
+                    break;
+                }
+            }
             return is;
         }
-        for (int i = 0; i < selectMedias.size(); i++) {
-            Media m = selectMedias.get(i);
-            if (m.path.equals(media.path)) {
-                is = i;
-                break;
-            }
-        }
-        return is;
     }
 
     public void updateSelectAdapter(ArrayList<Media> select) {
