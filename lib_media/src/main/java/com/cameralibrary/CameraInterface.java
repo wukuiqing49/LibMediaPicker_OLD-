@@ -46,7 +46,7 @@ import static android.graphics.Bitmap.createBitmap;
  * 描    述：camera操作单例
  * =====================================
  */
-@SuppressWarnings("deprecation")
+
 public class CameraInterface implements Camera.PreviewCallback {
 
     private static final String TAG = "CJT";

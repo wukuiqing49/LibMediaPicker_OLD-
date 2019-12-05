@@ -1,5 +1,6 @@
 package com.cameralibrary.state;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.Surface;
@@ -7,7 +8,9 @@ import android.view.SurfaceHolder;
 
 import com.cameralibrary.CameraInterface;
 import com.cameralibrary.JCameraView;
-import com.cameralibrary.util.LogUtil;
+import com.cameralibrary.state.CameraMachine;
+import com.cameralibrary.state.State;
+
 
 /**
  * =====================================
@@ -39,13 +42,11 @@ class PreviewState implements State {
 
     @Override
     public boolean foucs(float x, float y, CameraInterface.FocusCallback callback) {
-        LogUtil.i("preview state foucs");
         try {
             if (machine.getView().handlerFoucs(x, y)) {
                 return CameraInterface.getInstance().handleFocus(machine.getContext(), x, y, callback);
             }
         } catch (Exception e) {
-            Log.e("Camera", "", e);
         }
 
         return false;
@@ -68,14 +69,13 @@ class PreviewState implements State {
             public void captureResult(Bitmap bitmap, boolean isVertical) {
                 machine.getView().showPicture(bitmap, isVertical);
                 machine.setState(machine.getBorrowPictureState());
-                LogUtil.i("capture");
             }
         });
     }
 
     @Override
-    public boolean record(Surface surface, float screenProp) {
-        return CameraInterface.getInstance().startRecord(surface, screenProp, null);
+    public boolean record(Surface surface, float screenProp, Context context) {
+        return CameraInterface.getInstance().startRecord(surface, screenProp, null,context);
     }
 
     @Override
@@ -95,23 +95,20 @@ class PreviewState implements State {
 
     @Override
     public void cancle(SurfaceHolder holder, float screenProp) {
-        LogUtil.i("浏览状态下,没有 cancle 事件");
     }
 
     @Override
     public void confirm() {
-        LogUtil.i("浏览状态下,没有 confirm 事件");
     }
 
     @Override
     public void zoom(float zoom, int type) {
-        LogUtil.i(TAG, "zoom");
         CameraInterface.getInstance().setZoom(zoom, type);
     }
 
     @Override
     public void flash(String mode) {
-         CameraInterface.getInstance().setFlashMode(mode);
+        CameraInterface.getInstance().setFlashMode(mode);
     }
 
     @Override

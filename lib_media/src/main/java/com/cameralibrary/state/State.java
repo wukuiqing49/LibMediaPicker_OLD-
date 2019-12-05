@@ -1,5 +1,6 @@
 package com.cameralibrary.state;
 
+import android.content.Context;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 
@@ -28,7 +29,7 @@ public interface State {
 
     boolean capture();
 
-    boolean record(Surface surface, float screenProp);
+    boolean record(Surface surface, float screenProp, Context context);
 
     void stopRecord(boolean isShort, long time);
 
