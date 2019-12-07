@@ -7,7 +7,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.2'
+        classpath 'com.android.tools.build:gradle:3.5.0'
         //1.5 版本的插件和3.3.+版本gradle不兼容!!!!!!!!!
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
 
