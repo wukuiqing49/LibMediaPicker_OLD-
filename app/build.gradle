@@ -8,6 +8,9 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
+
+        aaptOptions.cruncherEnabled = false
+        aaptOptions.useNewCruncher = false
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
