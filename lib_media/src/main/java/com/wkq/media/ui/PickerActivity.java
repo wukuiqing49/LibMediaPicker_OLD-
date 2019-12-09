@@ -154,24 +154,17 @@ public class PickerActivity extends AppCompatActivity implements DataCallback, V
         long maxVideoSize = mOptions.getMaxVideoSize();
         long maxImageSize = mOptions.getMaxImageSize();
         boolean selectGift = mOptions.isSelectGift();
-//        if (AndroidQUtil.isAndroidQ()) {
-//            cachePath = this.getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath();
-//            mOptions.setCachePath(cachePath);
-//        } else {
-//            cachePath = mOptions.getCachePath();
-//            if (TextUtils.isEmpty(cachePath)) {
-//                cachePath = this.getExternalCacheDir().getAbsolutePath();
-//            }
-//        }
         cachePath = mOptions.getCachePath();
         videoTrimPath = mOptions.getVideoTrimPath() == null ? "" : mOptions.getVideoTrimPath();
         if (cachePath == null) {
             cachePath = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q ? this.getExternalFilesDir("") : Environment.getExternalStorageDirectory()).getPath() + File.separator + "JCamera";
-
         } else {
-            cachePath = cachePath.substring(0, cachePath.length() - 1);
+            if (AndroidQUtil.isAndroidQ()) {
+                cachePath = this.getExternalFilesDir("") + cachePath;
+            } else {
+                cachePath = cachePath.substring(0, cachePath.length() - 1);
+            }
         }
-
         showCamera = mOptions.isNeedCamera();
         isFrendCircle = mOptions.isFriendCircle();
 
@@ -440,18 +433,19 @@ public class PickerActivity extends AppCompatActivity implements DataCallback, V
                 public ObservableSource<Media> apply(Media media) throws Exception {
                     if (media.mediaType == 3) {
 
-                        if (AndroidQUtil.isAndroidQ()){
-                            if (!TextUtils.isEmpty(media.fileUri)&&!TextUtils.isEmpty(media.path)) {
+                        if (AndroidQUtil.isAndroidQ()) {
+                            if (!TextUtils.isEmpty(media.fileUri) && !TextUtils.isEmpty(media.path)) {
                                 path = AndroidQUtil.copyMp4(PickerActivity.this, media.fileUri, media.name);
                             } else {
                                 path = media.path;
                             }
 
-                        }else {
+                        } else {
                             if (!TextUtils.isEmpty(media.path)) {
                                 path = media.path;
                             } else {
-                                if (!TextUtils.isEmpty(media.fileUri))path = AndroidQUtil.copyMp4(PickerActivity.this, media.fileUri, media.name);
+                                if (!TextUtils.isEmpty(media.fileUri))
+                                    path = AndroidQUtil.copyMp4(PickerActivity.this, media.fileUri, media.name);
                             }
 
                         }
@@ -534,7 +528,7 @@ public class PickerActivity extends AppCompatActivity implements DataCallback, V
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == PickerConfig.REQUEST_TAKE_PHOTO) {
-            if (tempFile != null &&tempFile.exists()&&tempFile.length()>10&& mOptions != null)
+            if (tempFile != null && tempFile.exists() && tempFile.length() > 10 && mOptions != null)
                 ImageCropActivity.start(this, tempFile.getPath(), mOptions);
         }
 
