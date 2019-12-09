@@ -12,7 +12,7 @@
 
 
     引用方式:
-    implementation 'com.github.wukuiqing49:LibMediaPicker:1.0.18'
+    implementation 'com.github.wukuiqing49:LibMediaPicker:1.0.19'
 
      注意:需要处理 jdk 8 的兼容  (需要在项目的Bulid下配置)
 
