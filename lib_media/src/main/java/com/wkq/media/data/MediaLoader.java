@@ -81,7 +81,7 @@ public class MediaLoader extends LoaderM implements LoaderManager.LoaderCallback
                 }
                 long size = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.SIZE));
                 int duration = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Video.VideoColumns.DURATION));
-                if (size < 512 || duration<1 ) continue;
+
 
                 int id = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns._ID));
                 String name = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DISPLAY_NAME));
@@ -89,8 +89,10 @@ public class MediaLoader extends LoaderM implements LoaderManager.LoaderCallback
                 int mediaType = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.MEDIA_TYPE));
 
                 if (mediaType==3){
+                    if (size < 512 || duration<1 ) continue;
                     photoUri = Uri.parse(MediaStore.Video.Media.EXTERNAL_CONTENT_URI.toString() + File.separator + id);
                 }else if (mediaType==1){
+                    if (size < 512 ) continue;
                     photoUri = Uri.parse(MediaStore.Images.Media.EXTERNAL_CONTENT_URI.toString() + File.separator + id);
                 }
 
