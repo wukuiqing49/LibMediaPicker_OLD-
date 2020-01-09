@@ -78,6 +78,7 @@ public class ImageLoader extends LoaderM implements LoaderManager.LoaderCallback
             long dateTime = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATE_ADDED));
             int mediaType = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.MEDIA_TYPE));
             long size = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.SIZE));
+            if (size < 512  ) continue;
             int id = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID));
             Uri photoUri = Uri.parse(MediaStore.Images.Media.EXTERNAL_CONTENT_URI.toString() + File.separator + id);
             String fileUri=photoUri.toString();
